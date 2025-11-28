@@ -327,6 +327,7 @@
         ];
 
         // --- State Management ---
+        const DAY_KEYS = ['WFH', 'Office', 'Saturday', 'Sunday'];
         let activeTab = 'WFH';
         let appState = {
             title: 'TimeTrack',
@@ -515,7 +516,51 @@
             updateTimeAndStatus();
         }
 
-        // --- Data Persistence (Updated for V2) ---
+        // --- Data Persistence & Compression ---
+
+        function compressData(state) {
+            // Minify schema: [start, end, iconIndex, title]
+            // Remove IDs (generated on import)
+            // Map Day keys to array indices
+            const minSchedules = DAY_KEYS.map(key => {
+                return (state.schedules[key] || []).map(item => {
+                    const iconIdx = ICONS.indexOf(item.icon);
+                    return [item.start, item.end, iconIdx >= 0 ? iconIdx : 0, item.title];
+                });
+            });
+
+            return {
+                v: 2, // Version 2 (Lite)
+                t: state.title,
+                bg: state.themeId,
+                s: minSchedules
+            };
+        }
+
+        function decompressData(minified) {
+            const schedules = {};
+
+            // Check if it's the minified format (has 's' array and 'v': 2)
+            if (minified.v === 2 && Array.isArray(minified.s)) {
+                minified.s.forEach((dayData, index) => {
+                    const key = DAY_KEYS[index];
+                    schedules[key] = dayData.map(item => ({
+                        id: Date.now().toString(36) + Math.random().toString(36).substr(2), // Regenerate ID
+                        start: item[0],
+                        end: item[1],
+                        icon: ICONS[item[2]] || ICONS[0],
+                        title: item[3]
+                    }));
+                });
+
+                return {
+                    title: minified.t || 'TimeTrack',
+                    themeId: minified.bg || 0,
+                    schedules: schedules
+                };
+            }
+            return null; // Not minified format
+        }
 
         function saveLocalData() {
             localStorage.setItem('scheduleApp_v2', JSON.stringify(appState));
@@ -523,11 +568,9 @@
 
         function loadLocalData() {
             const saved = localStorage.getItem('scheduleApp_v2');
-            // Check for v2 data first
             if (saved) {
                 appState = JSON.parse(saved);
             } else {
-                // Check for v1 data (legacy support)
                 const v1 = localStorage.getItem('scheduleData');
                 if (v1) {
                     appState.schedules = JSON.parse(v1);
@@ -538,18 +581,30 @@
 
         function loadFromUrl(base64Data) {
             try {
-                const decoded = JSON.parse(decodeURIComponent(atob(base64Data)));
-                // Handle V2 vs V1 format
-                if (decoded.schedules) {
-                    appState = decoded; // V2
+                const jsonStr = decodeURIComponent(atob(base64Data));
+                const decoded = JSON.parse(jsonStr);
+
+                // Attempt decompression first
+                const decompressed = decompressData(decoded);
+
+                if (decompressed) {
+                    appState = decompressed;
+                } else if (decoded.schedules) {
+                    // Fallback to V2 Legacy (Full JSON)
+                    appState = decoded;
+                } else if (decoded.WFH) {
+                    // Fallback to V1 Legacy
+                    appState.schedules = decoded;
                 } else {
-                    appState.schedules = decoded; // V1
+                    throw new Error("Unknown format");
                 }
+
                 showToast('Configuration loaded!');
-                window.history.replaceState({}, document.title, window.location.pathname); // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
                 saveLocalData();
             } catch (e) {
-                showToast('Invalid data link');
+                console.error(e);
+                showToast('Invalid shared link');
                 loadLocalData();
             }
         }
@@ -573,11 +628,8 @@
         function applyTheme(id) {
             appState.themeId = id;
             const body = document.getElementById('app-body');
-            // Remove existing theme classes
             body.className = body.className.replace(/theme-bg-\d+/g, '');
             body.classList.add(`theme-bg-${id}`);
-
-            // Re-init selector to show active checkmark
             initThemeSelector();
         }
 
@@ -601,7 +653,7 @@
                 appState.title = newTitle;
                 saveLocalData();
             } else {
-                el.textContent = appState.title; // Revert if empty
+                el.textContent = appState.title;
             }
         }
 
@@ -623,7 +675,6 @@
                 return;
             }
 
-            // Overlap Check
             const startMins = timeToMins(start);
             const endMins = timeToMins(end);
 
@@ -795,7 +846,9 @@
         }
 
         function shareConfig() {
-            const json = JSON.stringify(appState);
+            // Use compressed format
+            const minified = compressData(appState);
+            const json = JSON.stringify(minified);
             const encoded = btoa(encodeURIComponent(json));
             const url = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
 
@@ -806,7 +859,7 @@
             document.execCommand("copy");
             document.body.removeChild(temp);
 
-            showToast('Full setup (Theme + Schedule) copied!');
+            showToast('Compact shareable URL copied!');
             toggleMenu();
         }
 
@@ -828,7 +881,12 @@
             reader.onload = function(e) {
                 try {
                     const imported = JSON.parse(e.target.result);
-                    if (imported.schedules) {
+                    // Check if it's compressed or legacy
+                    const decompressed = decompressData(imported);
+
+                    if (decompressed) {
+                         appState = decompressed;
+                    } else if (imported.schedules) {
                         appState = imported; // V2 Import
                     } else if (imported.WFH) {
                         appState.schedules = imported; // V1 Import
