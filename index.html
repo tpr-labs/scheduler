@@ -727,7 +727,7 @@
                     btn.querySelector('i').className = `fa-solid ${icon}`;
                 } else {
                     btn.className = 'icon-option aspect-square rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-400';
-                    btn.querySelector('i').className = `fa-solid ${icon}`;
+                    btn.querySelector('i').className = `fa-solid ${btn.dataset.icon}`;
                 }
             });
         }
