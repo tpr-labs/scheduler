@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Day Tracker & Scheduler</title>
-    
+
     <!-- Dynamic Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏳</text></svg>">
 
@@ -52,29 +52,29 @@
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            transition: background-image 0.5s ease; 
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-image 0.5s ease;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
         .time-font { font-family: 'JetBrains Mono', monospace; }
-        
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 4px; }
-        
+
         /* Smooth transitions */
         .schedule-item { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        
+
         /* Active Pulse */
         @keyframes pulse-border {
             0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
@@ -100,11 +100,11 @@
         /* Artistic Backgrounds (Unsplash) */
         .theme-bg-0 { background-color: #f3f4f6; background-image: none; } /* Default Simple */
         .dark .theme-bg-0 { background-color: #111827; background-image: none; }
-        
+
         .theme-bg-1 { background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=80'); } /* Misty Mountains */
         .theme-bg-2 { background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80'); } /* Deep Space */
         .theme-bg-3 { background-image: url('https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=1920&q=80'); } /* Abstract Paint */
-        .theme-bg-4 { background-image: url('https://images.unsplash.com/photo-1448375240586-dfd8d395ea6c?auto=format&fit=crop&w=1920&q=80'); } /* Deep Forest */
+        .theme-bg-4 { background-image: url('https://images.unsplash.com/photo-1558022103-603c34ab10ce?auto=format&fit=crop&w=1920&q=80'); } /* Deep Forest */
         .theme-bg-5 { background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1920&q=80'); } /* City Night */
         .theme-bg-6 { background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1920&q=80'); } /* Desert Dunes */
         .theme-bg-7 { background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=1920&q=80'); } /* Ocean */
@@ -135,20 +135,20 @@
                 </div>
                 <!-- Editable Title -->
                 <div class="flex flex-col">
-                    <h1 id="app-title" contenteditable="true" spellcheck="false" 
+                    <h1 id="app-title" contenteditable="true" spellcheck="false"
                         class="font-bold text-lg tracking-tight leading-none px-1 border border-transparent hover:border-gray-300 dark:hover:border-gray-600 rounded transition-colors truncate max-w-[150px] sm:max-w-none"
                         onblur="saveAppTitle()">TimeTrack</h1>
                     <span class="text-[10px] text-gray-500 font-medium px-1 uppercase tracking-wider">Tap name to edit</span>
                 </div>
             </div>
-            
+
             <div class="flex items-center gap-2">
                 <!-- Desktop Date/Clock Display -->
                 <div id="ist-clock-container" class="hidden sm:flex flex-col items-end leading-tight mr-2">
                     <span id="header-date" class="text-xs font-semibold text-gray-500 dark:text-gray-400">Fri, 28 Nov</span>
                     <span id="ist-clock" class="time-font text-sm font-bold text-brand-700 dark:text-brand-400">--:-- IST</span>
                 </div>
-                
+
                 <!-- Theme Button -->
                 <button onclick="toggleThemeModal()" class="p-2.5 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Change Theme">
                     <i class="fa-solid fa-palette text-lg"></i>
@@ -223,7 +223,7 @@
 
     <!-- Main Content -->
     <main class="flex-grow max-w-3xl mx-auto w-full p-4 safe-bottom">
-        
+
         <!-- Mobile Clock (Visible only on small screens) -->
         <div class="sm:hidden mb-6 text-center glass-panel rounded-2xl py-3 border border-gray-200/50 dark:border-gray-700/50">
             <div id="mobile-date" class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">FRI, 28 NOV</div>
@@ -256,7 +256,7 @@
     <!-- Add/Edit Modal Form -->
     <div id="modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-end sm:items-center justify-center z-50 p-0 sm:p-4">
         <div class="bg-white dark:bg-gray-800 w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl transform transition-all flex flex-col max-h-[90vh] border border-gray-200 dark:border-gray-700">
-            
+
             <!-- Modal Header -->
             <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800 rounded-t-2xl">
                 <h2 class="text-lg font-bold" id="modal-title">Add Schedule</h2>
@@ -269,7 +269,7 @@
             <div class="p-6 overflow-y-auto">
                 <form id="schedule-form" onsubmit="saveSchedule(event)">
                     <input type="hidden" id="edit-id">
-                    
+
                     <div class="space-y-5">
                         <!-- Icon Selector -->
                         <div>
@@ -283,7 +283,7 @@
                         <!-- Name -->
                         <div>
                             <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1.5">Activity Name</label>
-                            <input type="text" id="task-name" required placeholder="e.g. Focus Time" 
+                            <input type="text" id="task-name" required placeholder="e.g. Focus Time"
                                 class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 focus:outline-none transition-shadow font-medium">
                         </div>
 
@@ -291,12 +291,12 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1.5">Start Time</label>
-                                <input type="time" id="start-time" required 
+                                <input type="time" id="start-time" required
                                     class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:outline-none time-font font-medium">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1.5">End Time</label>
-                                <input type="time" id="end-time" required 
+                                <input type="time" id="end-time" required
                                     class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 focus:outline-none time-font font-medium">
                             </div>
                         </div>
@@ -343,10 +343,11 @@
         ];
 
         const ICONS = [
-            'fa-briefcase', 'fa-laptop-code', 'fa-mug-hot', 'fa-utensils', 
-            'fa-bed', 'fa-car', 'fa-phone', 'fa-users', 
+            'fa-briefcase', 'fa-laptop-code', 'fa-mug-hot', 'fa-utensils',
+            'fa-bed', 'fa-car', 'fa-phone', 'fa-users',
             'fa-dumbbell', 'fa-book', 'fa-gamepad', 'fa-music',
-            'fa-cart-shopping', 'fa-house', 'fa-plane', 'fa-stethoscope'
+            'fa-cart-shopping', 'fa-house', 'fa-plane', 'fa-stethoscope',
+            'fa-person-running', 'fa-people-roof',
         ];
 
         // --- State Management ---
@@ -367,7 +368,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initIcons();
             initThemeSelector();
-            
+
             // Handle Data Import (URL or Local)
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
@@ -382,7 +383,7 @@
             loadDarkMode();
 
             render();
-            
+
             // Timer for Clock & Highlight
             setInterval(updateTimeAndStatus, 1000);
             updateTimeAndStatus();
@@ -409,7 +410,7 @@
             const dayName = days[istDate.getDay()];
             const dayNum = istDate.getDate();
             const monthName = months[istDate.getMonth()];
-            
+
             const dateStrShort = `${dayName}, ${dayNum} ${monthName}`;
             const dateStrFull = `${dayName}, ${dayNum} ${monthName}`; // Can extend if needed
 
@@ -446,19 +447,19 @@
                     activeFound = true;
                     el.classList.add('active-now');
                     statusArea.classList.remove('hidden');
-                    
+
                     const totalDuration = endMins - startMins;
                     const elapsed = currentMins - startMins;
                     const remaining = endMins - currentMins;
-                    
+
                     const percent = Math.min(100, Math.max(0, ((elapsed * 60 + currentSeconds) / (totalDuration * 60)) * 100));
-                    
+
                     // Updated to green classes dynamically or via style
                     progressBar.style.width = `${percent}%`;
                     progressBar.classList.add('bg-active-500'); // Ensure green
                     timeLeftEl.textContent = `${remaining} min remaining`;
                     timeLeftEl.classList.add('text-active-600');
-                    
+
                 } else if (currentMins >= endMins) {
                     // Past Task
                     el.classList.add('opacity-50'); // Dim completed
@@ -501,14 +502,14 @@
             container.innerHTML = list.map(item => {
                 const duration = calculateDuration(item.start, item.end);
                 return `
-                <div onclick="editSchedule('${item.id}')" id="task-${item.id}" 
+                <div onclick="editSchedule('${item.id}')" id="task-${item.id}"
                     class="schedule-item relative glass-panel rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700/50 cursor-pointer hover:shadow-lg hover:translate-y-[-2px] group">
-                    
+
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 rounded-xl bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 flex items-center justify-center shrink-0 shadow-sm">
                             <i class="fa-solid ${item.icon} text-xl"></i>
                         </div>
-                        
+
                         <div class="flex-grow">
                             <h3 class="font-bold text-gray-800 dark:text-gray-100 leading-tight">${item.title}</h3>
                             <div class="flex items-center gap-3 mt-1.5 text-sm text-gray-500 dark:text-gray-400">
@@ -535,7 +536,7 @@
                 </div>
                 `;
             }).join('');
-            
+
             updateTimeAndStatus();
         }
 
@@ -563,7 +564,7 @@
 
         function decompressData(minified) {
             const schedules = {};
-            
+
             // Version 3 (Integers for time)
             if (minified.v === 3 && Array.isArray(minified.s)) {
                 minified.s.forEach((dayData, index) => {
@@ -591,7 +592,7 @@
                         title: item[3]
                     }));
                 });
-                
+
                 return {
                     title: minified.t || 'TimeTrack',
                     themeId: minified.bg || 0,
@@ -622,22 +623,22 @@
             try {
                 const jsonStr = decodeURIComponent(atob(base64Data));
                 const decoded = JSON.parse(jsonStr);
-                
+
                 // Attempt decompression first
                 const decompressed = decompressData(decoded);
-                
+
                 if (decompressed) {
                     appState = decompressed;
                 } else if (decoded.schedules) {
                     // Fallback to V2 Legacy (Full JSON)
-                    appState = decoded; 
+                    appState = decoded;
                 } else if (decoded.WFH) {
                     // Fallback to V1 Legacy
-                    appState.schedules = decoded; 
+                    appState.schedules = decoded;
                 } else {
                     throw new Error("Unknown format");
                 }
-                
+
                 showToast('Configuration loaded!');
                 window.history.replaceState({}, document.title, window.location.pathname);
                 saveLocalData();
@@ -653,7 +654,7 @@
         function initThemeSelector() {
             const container = document.querySelector('#theme-modal .grid');
             container.innerHTML = THEMES.map(t => `
-                <div onclick="applyTheme(${t.id}); saveLocalData(); toggleThemeModal()" 
+                <div onclick="applyTheme(${t.id}); saveLocalData(); toggleThemeModal()"
                     class="cursor-pointer group relative rounded-xl overflow-hidden aspect-video shadow-sm hover:shadow-md transition-all border border-gray-200 dark:border-gray-600">
                     <div class="absolute inset-0 theme-bg-${t.id}"></div>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -688,13 +689,13 @@
         function viewJsonData() {
             const viewer = document.getElementById('json-viewer');
             const modal = document.getElementById('json-modal');
-            
+
             // Use compressed data for the view
             const minified = compressData(appState);
-            
+
             // Format JSON nicely with 2 space indentation
             viewer.value = JSON.stringify(minified, null, 2);
-            
+
             toggleMenu(); // Close main menu
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -723,7 +724,7 @@
                 appState.title = newTitle;
                 saveLocalData();
             } else {
-                el.textContent = appState.title; 
+                el.textContent = appState.title;
             }
         }
 
@@ -747,7 +748,7 @@
 
             const startMins = timeToMins(start);
             const endMins = timeToMins(end);
-            
+
             const hasOverlap = appState.schedules[activeTab].some(item => {
                 if (id && item.id === id) return false;
                 const iStart = timeToMins(item.start);
@@ -792,7 +793,7 @@
             const form = document.getElementById('schedule-form');
             const deleteBtn = document.getElementById('btn-delete');
             const errorDiv = document.getElementById('form-error');
-            
+
             errorDiv.classList.add('hidden');
             form.reset();
 
@@ -832,8 +833,8 @@
 
         function initIcons() {
             document.getElementById('icon-grid').innerHTML = ICONS.map(icon => `
-                <button type="button" onclick="selectIcon('${icon}')" 
-                    class="icon-option aspect-square rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-brand-50 dark:hover:bg-gray-700 transition-all" 
+                <button type="button" onclick="selectIcon('${icon}')"
+                    class="icon-option aspect-square rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-brand-50 dark:hover:bg-gray-700 transition-all"
                     data-icon="${icon}">
                     <i class="fa-solid ${icon} text-gray-400"></i>
                 </button>
@@ -855,26 +856,26 @@
 
         // --- Utils ---
         function timeToMins(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
-        
+
         function minsToTime(mins) {
             const h = Math.floor(mins / 60).toString().padStart(2, '0');
             const m = (mins % 60).toString().padStart(2, '0');
             return `${h}:${m}`;
         }
-        
+
         function calculateDuration(start, end) {
             let diff = timeToMins(end) - timeToMins(start);
             const h = Math.floor(diff / 60);
             const m = diff % 60;
             return `${h > 0 ? h + 'h ' : ''}${m}m`;
         }
-        
+
         function formatTimeDisplay(t) {
             const [h, m] = t.split(':');
             let hour = parseInt(h);
             const ampm = hour >= 12 ? 'PM' : 'AM';
             hour = hour % 12;
-            hour = hour ? hour : 12; 
+            hour = hour ? hour : 12;
             return `${hour}:${m} ${ampm}`;
         }
 
@@ -927,7 +928,7 @@
             const json = JSON.stringify(minified);
             const encoded = btoa(encodeURIComponent(json));
             const url = `${window.location.origin}${window.location.pathname}?data=${encoded}`;
-            
+
             if (url.length > 1900) {
                 alert(`URL Length Warning: ${url.length} chars.\n\nBrowsers may truncate URLs over 2000 chars.\n\nTry removing some tasks or use "Export JSON" instead.`);
                 // Continue to allow copy attempt, or return.
@@ -940,7 +941,7 @@
             temp.select();
             document.execCommand("copy");
             document.body.removeChild(temp);
-            
+
             showToast('Compact shareable URL copied!');
             toggleMenu();
         }
@@ -967,7 +968,7 @@
                     const imported = JSON.parse(e.target.result);
                     // Check if it's compressed or legacy
                     const decompressed = decompressData(imported);
-                    
+
                     if (decompressed) {
                          appState = decompressed;
                     } else if (imported.schedules) {
